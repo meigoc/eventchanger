@@ -1,0 +1,32 @@
+package misterretsim.plugin.eventchanger;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+public class EventChangerCMD implements CommandExecutor {
+
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (!sender.hasPermission("eventchanger.command")) {
+            sender.sendMessage(ChatColor.GREEN + "! " + ChatColor.WHITE + "У вас нет прав на использование " + ChatColor.RED + "/eventchanger" );
+            return true;
+        }
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.GREEN + "! " + ChatColor.WHITE + "/eventchanger reload");
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("reload")) {
+            EventChanger.getInstance().reloadConfig();
+            sender.sendMessage(ChatColor.GREEN + "! " + ChatColor.WHITE + "Конфиг перезагружен");
+        }
+        else {
+            sender.sendMessage(ChatColor.GREEN + "! " + ChatColor.WHITE + "/eventchanger reload");
+            return true;
+        }
+        return true;
+    }
+}
