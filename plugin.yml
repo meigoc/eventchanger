@@ -1,0 +1,11 @@
+name: EventChanger
+version: '1.0'
+main: misterretsim.plugin.eventchanger.EventChanger
+api-version: 1.16
+authors:
+  - MisterretsiM
+  - MeigoStudios
+commands:
+  eventchanger:
+    usage: /eventchanger
+    description: EventChanger
