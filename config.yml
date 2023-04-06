@@ -1,0 +1,15 @@
+Switches:
+    Chat:
+        CustomMessageIsEnabled: false
+    JoinMessageIsEnabled: false
+    QuitMessageIsEnabled: false
+
+
+Events:
+    JoinMessage: "&e{player} joined the game"
+    QuitMessage: "&e{player} left the game"
+    DeathMessages:
+        World: "{player} выпал из мира"
+        High place: "{player} разбился насмерть"
+        Entity: "{player} был убит {entity}"
+    ChatMessage: "<{player}> {message}"
