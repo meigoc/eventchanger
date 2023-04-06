@@ -1,0 +1,83 @@
+package misterretsim.plugin.eventchanger;
+
+import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.*;
+
+import java.util.Objects;
+
+public class EventsC implements Listener {
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent player) {
+        player.getPlayer().kickPlayer("Лох");
+        if (Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Switches.JoinMessageIsEnabled")).equalsIgnoreCase("true")) {
+            if (Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.JoinMessage")).equalsIgnoreCase("none")) {
+                player.setJoinMessage(player.getJoinMessage());
+            }
+            else {
+                String text = Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.JoinMessage")).replace("{player}", player.getPlayer().getName());
+                String message = ChatColor.translateAlternateColorCodes('&', text);
+                player.setJoinMessage(message);
+            }
+        }
+        else {
+            player.joinMessage();
+        }
+
+    }
+
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent player) {
+        if (Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Switches.QuitMessageIsEnabled")).equalsIgnoreCase("true")) {
+            if (Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.QuitMessage")).equalsIgnoreCase("none")) {
+                player.setQuitMessage(player.getQuitMessage());
+            }
+            else {
+                String text = Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.QuitMessage")).replace("{player}", player.getPlayer().getName());
+                String message = ChatColor.translateAlternateColorCodes('&', text);
+                player.setQuitMessage(message);
+            }
+        }
+        else {
+            player.quitMessage();
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent player) {
+        if (Objects.requireNonNull(player.getDeathMessage()).equals(Objects.requireNonNull(player.getEntity().getPlayer()).getName() + " fell out of the world")) {
+            String text = Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.DeathMessages.World")).replace("{player}", player.getEntity().getPlayer().getName());
+            String message = ChatColor.translateAlternateColorCodes('&', text);
+            player.setDeathMessage(message);
+        }
+        if (Objects.requireNonNull(player.getDeathMessage()).equals(Objects.requireNonNull(player.getEntity().getPlayer()).getName() + " fell from a high place")) {
+            String text = Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.DeathMessages.High place")).replace("{player}", player.getEntity().getPlayer().getName());
+            String message = ChatColor.translateAlternateColorCodes('&', text);
+            player.setDeathMessage(message);
+        }
+        if (Objects.requireNonNull(player.getDeathMessage()).contains(Objects.requireNonNull(player.getEntity().getPlayer()).getName() + " was slain by")) {
+            String text = Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.DeathMessages.Entity")).replace("{player}", player.getEntity().getPlayer().getName().replace("{entity}", Objects.requireNonNull(player.getEntity().getKiller()).getName()));
+            String message = ChatColor.translateAlternateColorCodes('&', text);
+            player.setDeathMessage(message);
+        }
+        else {
+            player.setDeathMessage(player.getDeathMessage());
+        }
+    }
+    
+    @EventHandler
+    public void onChat(PlayerChatEvent player) {
+        if (Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Switches.Chat.CustomMessageIsEnabled")).equals("true")) {
+            String message = Objects.requireNonNull(Objects.requireNonNull(EventChanger.getInstance().getConfig().getString("Events.ChatMessage")).replace("{player}", player.getPlayer().getName()).replace("{message}", player.getMessage()));
+            player.setFormat(message);
+        }
+        else {
+            player.setCancelled(false);
+        }
+    }
+
+}
