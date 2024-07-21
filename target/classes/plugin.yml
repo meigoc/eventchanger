@@ -1,0 +1,12 @@
+name: EventChanger
+version: '5.0'
+main: org.meigo.eventChanger.EventChanger
+api-version: '1.21'
+commands:
+  eventchanger:
+    usage: /eventchanger
+    description:  EventChanger command
+authors: [ Meigo™ Corporation ]
+website: https://r.longlink.click/plugin/eventchanger
+softdepend:
+  - PlaceholderAPI
